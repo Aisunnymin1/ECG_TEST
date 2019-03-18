@@ -326,4 +326,4 @@ pre.to_csv('1.csv', index=False)
 test.to_csv('2.csv', index=False)
 score('1.csv', '2.csv')
 
-        
+qy

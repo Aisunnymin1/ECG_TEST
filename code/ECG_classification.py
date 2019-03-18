@@ -270,6 +270,7 @@ cnn2rnn = CNN_Linear_RNN()
 decisioner = Decisioner()
     
 ECG_class = ECG_Class(cnn2rnn, decisioner, PARM.ifGPU)
+
 #%% Training Network 训练网络
 if PARM.ifGPU:
     test_y = test_y.cuda()

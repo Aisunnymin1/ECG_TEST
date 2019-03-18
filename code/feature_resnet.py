@@ -71,10 +71,10 @@ class ResNet34(nn.Module):
          {(input_Weight - kernel_size + 2*padding) / stride[1] }+1
         '''
         self.pre = nn.Sequential(
-            nn.Conv2d(in_channels=12, out_channels=32, kernel_size=(47, 1), stride=1, padding=0, bias=False),
+            nn.Conv2d(in_channels=24, out_channels=32, kernel_size=(47, 1), stride=1, padding=0, bias=False),
             nn.BatchNorm2d(num_features=32),
             nn.Dropout(0.8),
-            nn.ReLU(inplace=False),
+            nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=(3, 1))
         )
         # batch channel width height
@@ -155,13 +155,13 @@ for file in os.listdir(PATH):
         out = ecg.ecg(data[i], sampling_rate=500, show=False)
         templates.append(out.as_dict()['templates'])
     # %%
-    features = np.concatenate(templates, axis=1)
+    features = np.concatenate(templates[:12], axis=1)
     ECG_feature_data.append(features)
 # 标签数据
 ECG_label_data = pd.read_csv(PATH + LABEL)
 ECG_label_data = ECG_label_data.iloc[0: PARM.datanum]
 # %% Reprocess Data 数据预处理
-X = np.zeros([PARM.datanum, 12, PARM.len])
+X = np.zeros([PARM.datanum, 24, PARM.len])
 for i in range(len(ECG_feature_data)):
     X[i, :] = ECG_feature_data[i][:, :PARM.len]
 X = X[:, :, :, np.newaxis]
